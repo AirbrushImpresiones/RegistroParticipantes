@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Participantes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #1a202c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        /* Custom colors for title and button */
+        .text-custom-primary {
+            color: #233773;
+        }
+        .bg-custom-primary {
+            background-color: #233773;
+        }
+        .hover\:bg-custom-primary-light:hover {
+            background-color: #2e468d; /* A lighter shade for the hover effect */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-6">
+
+    <div id="app" class="max-w-xl mx-auto w-full">
+        <!-- Registration Form Screen -->
+        <div id="form-screen" class="bg-white rounded-2xl shadow-lg p-8">
+            <!-- Replace the image source below with the URL of your logo -->
+            <img src="imagen/logoAirbrush2025.png" alt="Logo Airbrush" class="mx-auto mb-6 w-24 h-24 rounded-full shadow-md">
+            
+            <h1 class="text-3xl font-bold text-center text-custom-primary mb-2">Registro de participantes</h1>
+            <p class="text-center text-gray-600 mb-6">¡Inscríbete para tener la oportunidad de ganar premios increíbles!</p>
+
+            <form id="registration-form" class="space-y-6">
+                <div>
+                    <label for="company-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre de la Empresa</label>
+                    <input type="text" id="company-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+                <div>
+                    <label for="participant-name" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Participante</label>
+                    <input type="text" id="participant-name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                    <input type="email" id="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+                
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                    <input type="tel" id="phone" required pattern="[0-9]{8}" title="Por favor, introduce un número de teléfono válido de 8 dígitos." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                </div>
+
+                <div class="flex items-center">
+                    <input type="checkbox" id="terms" required class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="terms" class="ml-2 block text-sm text-gray-900">Acepto los <a href="#" id="open-terms" class="text-blue-600 hover:underline">términos y condiciones</a></label>
+                </div>
+
+                <button type="submit" class="w-full bg-custom-primary text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-custom-primary-light transition-colors">
+                    Registrarse
+                </button>
+            </form>
+
+            <!-- Message Box for errors -->
+            <div id="message-box" class="mt-6 hidden">
+                <div id="message-text" class="px-4 py-3 rounded-lg text-sm text-center"></div>
+                <div class="flex justify-center mt-2">
+                    <button id="close-message" class="bg-gray-200 text-gray-800 px-3 py-1 rounded-lg text-sm hover:bg-gray-300 transition-colors">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms and Conditions Modal -->
+    <div id="terms-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-8 relative">
+            <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold leading-none">
+                &times;
+            </button>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Términos y Condiciones para la Actividad</h2>
+            <div class="text-gray-700 space-y-4 text-sm">
+                <p>Al participar en esta actividad, el participante acepta plenamente estos Términos y Condiciones. La participación es voluntaria y gratuita.</p>
+                <h3 class="font-semibold text-lg">1. Elegibilidad</h3>
+                <p>La participación está abierta a cualquier persona mayor de 18 años que se registre correctamente a través del formulario oficial de la actividad. No se aceptarán registros incompletos.</p>
+                <h3 class="font-semibold text-lg">2. Recopilación y Uso de Datos</h3>
+                <p>Los datos personales (nombre de la empresa, nombre del participante, correo electrónico y teléfono) se recogen con el único fin de gestionar la participación en la actividad, contactar a los ganadores y, si el participante lo autoriza, para futuros comunicados relacionados con Airbrush Impresiones, S.A., los datos no serán compartidos con terceros sin el consentimiento expreso del participante.</p>
+                <h3 class="font-semibold text-lg">3. Premios</h3>
+                <p>Los premios son los especificados en el mupi de la exposición. La entrega de los premios es física y se realizará exclusivamente en el lugar y durante el horario de la exposición, previa confirmación del registro del participante. Los premios no son transferibles ni canjeables por dinero en efectivo u otros bienes.</p>
+                <h3 class="font-semibold text-lg">4. Limitación de Responsabilidad</h3>
+                <p>Airbrush Impresiones, S.A. no se hace responsable por fallas técnicas, errores en el sistema o cualquier otra circunstancia que impida el registro correcto de un participante. Airbrush Impresiones, S.A. se reserva el derecho de modificar o cancelar la actividad en cualquier momento si las circunstancias lo requieren, sin previo aviso.</p>
+                <h3 class="font-semibold text-lg">5. Obligaciones del Participante</h3>
+                <p>El participante debe asegurarse de que la información proporcionada en el formulario es veraz y completa. Cualquier información falsa invalidará la participación.</p>
+                <h3 class="font-semibold text-lg">6. Dudas y Preguntas</h3>
+                <p>Para cualquier duda o aclaración sobre estos Términos y Condiciones, por favor contactar con el personal encargado del evento.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl shadow-xl max-w-lg w-full p-8 relative">
+            <button id="close-success-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold leading-none">
+                &times;
+            </button>
+            <div class="flex flex-col items-center text-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500 mb-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">¡Registro Exitoso!</h2>
+                <p class="text-gray-700 text-lg">¡Gracias por participar! Ahora puedes dirigirte al mupi para reclamar tu premio.</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDoc, doc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // IMPORTANT: Use the provided global variables
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // --- Firebase Initialization and Authentication ---
+        let app;
+        let db;
+        let auth;
+        let userId;
+
+        const initFirebase = async () => {
+            try {
+                // Set debug level for Firestore logs
+                setLogLevel('debug');
+
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Sign in with the provided custom token or anonymously if not available
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                userId = auth.currentUser.uid;
+                console.log("Firebase initialized successfully. User ID:", userId);
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                showMessage('Ha ocurrido un error al iniciar el servicio de registro. Por favor, inténtalo de nuevo más tarde.', 'bg-red-100 text-red-700');
+            }
+        };
+
+        const showMessage = (text, className) => {
+            const messageBox = document.getElementById('message-box');
+            const messageText = document.getElementById('message-text');
+            messageText.textContent = text;
+            messageText.className = className + ' px-4 py-3 rounded-lg text-sm text-center';
+            messageBox.classList.remove('hidden');
+        };
+
+        const hideMessage = () => {
+            document.getElementById('message-box').classList.add('hidden');
+        };
+        
+        document.getElementById('close-message').addEventListener('click', hideMessage);
+
+        const form = document.getElementById('registration-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessage();
+
+            if (!db) {
+                showMessage('El servicio de base de datos no está disponible. Por favor, inténtalo de nuevo.', 'bg-red-100 text-red-700');
+                return;
+            }
+
+            const companyName = document.getElementById('company-name').value;
+            const participantName = document.getElementById('participant-name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const termsAccepted = document.getElementById('terms').checked;
+
+            if (!termsAccepted) {
+                showMessage('Debes aceptar los términos y condiciones para continuar.', 'bg-yellow-100 text-yellow-700');
+                return;
+            }
+
+            try {
+                const participantsCollectionRef = collection(db, 'artifacts', appId, 'users', userId, 'participants');
+
+                // Check for duplicate registration by name and email
+                const q = query(participantsCollectionRef, where("participantName", "==", participantName), where("email", "==", email));
+                const querySnapshot = await getDocs(q);
+                
+                if (!querySnapshot.empty) {
+                    showMessage('Ya existe un registro con este nombre y correo electrónico.', 'bg-red-100 text-red-700');
+                    return;
+                }
+
+                const participantData = {
+                    companyName: companyName,
+                    participantName: participantName,
+                    email: email,
+                    phone: phone,
+                    timestamp: new Date()
+                };
+
+                // Store data
+                await addDoc(participantsCollectionRef, participantData);
+
+                // On successful registration, show the success modal.
+                document.getElementById('success-modal').classList.remove('hidden');
+                form.reset();
+            } catch (error) {
+                console.error("Error adding document:", error);
+                showMessage('Error al enviar el formulario. Por favor, comprueba tu conexión y vuelve a intentarlo.', 'bg-red-100 text-red-700');
+            }
+        });
+
+        // --- Modal Logic ---
+        const termsModal = document.getElementById('terms-modal');
+        const openTermsButton = document.getElementById('open-terms');
+        const closeModalButton = document.getElementById('close-modal');
+
+        openTermsButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            termsModal.classList.remove('hidden');
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            termsModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside of it
+        termsModal.addEventListener('click', (e) => {
+            if (e.target === termsModal) {
+                termsModal.classList.add('hidden');
+            }
+        });
+        
+        const successModal = document.getElementById('success-modal');
+        const closeSuccessModalButton = document.getElementById('close-success-modal');
+
+        closeSuccessModalButton.addEventListener('click', () => {
+            successModal.classList.add('hidden');
+        });
+        
+        successModal.addEventListener('click', (e) => {
+            if (e.target === successModal) {
+                successModal.classList.add('hidden');
+            }
+        });
+
+        // Initialize Firebase when the window loads
+        window.onload = initFirebase;
+    </script>
+</body>
+</html>
